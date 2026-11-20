@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ch. Vedha Sri – 3D Artist & Animator</title>
+<meta name="description" content="Portfolio of Ch. Vedha Sri: Photoshop, Illustrator, Animate, 3D modelling and 3D animation in Maya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1f2229; --panel:#2a2e37; --panel2:#343945; --line:#454b59;
+  --text:#e8eaf0; --mute:#a2a9b8;
+  --x:#ff5a5f; --y:#6fdc6f; --z:#4aa3ff; --amber:#ffb454;
+  --display:"Chakra Petch","Trebuchet MS",sans-serif;
+  --body:"Figtree","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.65;font-size:17px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.01em}
+h2{font-size:clamp(1.9rem,4.5vw,2.9rem);margin-bottom:10px}
+section{padding:84px 0}
+p{max-width:62ch}
+.sec-intro{color:var(--mute);margin-bottom:30px}
+
+/* menu bar */
+nav{position:sticky;top:0;z-index:30;background:#181a20;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{font-family:var(--display);font-weight:700;text-decoration:none;display:flex;align-items:center;gap:10px}
+.gizmo{width:22px;height:22px}
+nav ul{display:flex;gap:20px;list-style:none;padding:0;font-size:.95rem;font-weight:500}
+nav ul a{text-decoration:none;color:var(--mute);padding:6px 2px;border-bottom:2px solid transparent}
+nav ul a:hover{color:var(--text);border-color:var(--z)}
+@media(max-width:700px){nav ul li:nth-child(n+4){display:none}nav ul{gap:14px}}
+
+/* hero viewport */
+.hero{position:relative;overflow:hidden;padding:56px 0 0;background:radial-gradient(ellipse at 70% 30%,#2d3340 0,var(--bg) 62%)}
+.floor{position:absolute;left:-30%;right:-30%;bottom:0;height:58%;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:60px 60px;transform:perspective(500px) rotateX(62deg);transform-origin:bottom;opacity:.55;
+  -webkit-mask-image:linear-gradient(to top,#000 40%,transparent);mask-image:linear-gradient(to top,#000 40%,transparent)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;padding-bottom:36px}
+.hero h1{font-size:clamp(3rem,9vw,6.6rem);font-weight:700;margin-bottom:16px}
+.hero h1 b{display:block;font-weight:700;background:linear-gradient(90deg,var(--x),var(--amber) 35%,var(--y) 65%,var(--z));-webkit-background-clip:text;background-clip:text;color:transparent}
+.role{font-family:var(--display);font-size:1.2rem;color:var(--mute);margin-bottom:12px}
+.hero p.lead{font-size:1.1rem;color:var(--mute);margin-bottom:26px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 22px;border-radius:6px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--panel);transition:background .15s,border-color .15s}
+.btn:hover{background:var(--panel2);border-color:var(--z)}
+.btn.main{background:var(--z);border-color:var(--z);color:#06121f}
+.btn.main:hover{background:#74b8ff}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#22252c;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--mute)}
+.modes{display:flex;gap:4px}
+.modes button{font:inherit;font-size:.8rem;padding:3px 11px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:4px;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--z);border-color:var(--z);color:#06121f}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:grab;touch-action:pan-y;background:#1b1e24}
+canvas:active{cursor:grabbing}
+.timeline{position:relative;border-top:1px solid var(--line);background:#22252c;height:46px}
+.ticks{position:absolute;inset:0 14px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 5%);}
+.key{position:absolute;top:26px;width:9px;height:9px;background:var(--amber);transform:rotate(45deg);margin-left:-4px}
+.head{position:absolute;top:0;bottom:0;width:2px;background:var(--x);left:14px;animation:scrub 6s linear infinite}
+.head::before{content:"";position:absolute;top:0;left:-5px;width:12px;height:10px;background:var(--x);clip-path:polygon(0 0,100% 0,50% 100%)}
+@keyframes scrub{to{left:calc(100% - 14px)}}
+@media(max-width:880px){.hero .wrap{grid-template-columns:1fr}}
+
+/* about */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:40px}
+.about p+p{margin-top:14px;color:var(--mute)}
+.facts{padding:24px 26px;align-self:start}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:12px 20px}
+.facts dt{color:var(--mute)}.facts dd{font-weight:600}
+@media(max-width:880px){.about{grid-template-columns:1fr}}
+
+/* gallery */
+.shelf{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.tab{display:flex;align-items:center;gap:10px;font:600 .98rem var(--body);color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 16px 8px 8px;cursor:pointer;transition:background .15s}
+.tab:hover{background:var(--panel2)}
+.tab i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:6px;font:700 .95rem var(--display);color:#fff}
+.tab[aria-selected="true"]{background:var(--panel2);border-color:var(--c);box-shadow:inset 0 -3px 0 var(--c)}
+.gal-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.gal-head h3{font-size:1.5rem}
+.gal-head p{color:var(--mute);font-size:.95rem}
+.add{cursor:pointer}
+.add input{position:absolute;opacity:0;width:1px;height:1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.item{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:zoom-in;padding:0;color:inherit;text-align:left;display:block;width:100%}
+.item img,.item video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.item:hover img,.item:hover video{transform:scale(1.05)}
+.item span.cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;background:linear-gradient(transparent,rgba(10,12,16,.85));font-size:.92rem;font-weight:500}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:100%;color:var(--mute);font-size:.9rem;text-align:center;padding:12px;
+  background:repeating-linear-gradient(45deg,var(--panel),var(--panel) 12px,var(--panel2) 12px,var(--panel2) 24px)}
+.ph b{font:700 1.6rem var(--display);color:var(--c)}
+.hint{margin-top:18px;font-size:.9rem;color:var(--mute);border-left:3px solid var(--amber);padding-left:12px}
+.hint code{background:var(--panel);padding:1px 6px;border-radius:4px;font-size:.85rem}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(10,12,16,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.lb.open{display:flex}
+.lb img,.lb video{max-width:94vw;max-height:78vh;border-radius:8px;border:1px solid var(--line)}
+.lb p{margin-top:14px;text-align:center;color:var(--mute)}
+.lb button{position:absolute;font:inherit;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:6px;width:46px;height:46px;font-size:1.3rem;cursor:pointer}
+.lb button:hover{border-color:var(--z)}
+.lb .x{top:16px;right:16px}.lb .pv{left:14px;top:50%}.lb .nx{right:14px;top:50%}
+
+/* toolkit + path */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.tool{padding:20px}
+.tool i{font-style:normal;display:grid;place-items:center;width:46px;height:46px;border-radius:8px;font:700 1.1rem var(--display);color:#fff;margin-bottom:12px}
+.tool h3{font-size:1.15rem;margin-bottom:4px}.tool p{color:var(--mute);font-size:.93rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chip{padding:6px 15px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);font-size:.93rem}
+.sub{margin-top:34px;margin-bottom:6px;font:700 1.25rem var(--display)}
+.path{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{padding:22px 24px}.card h3{font-size:1.25rem}.card small{color:var(--mute)}
+@media(max-width:760px){.path{grid-template-columns:1fr}}
+
+/* contact */
+.contact{padding:48px 36px;border-radius:14px;background:linear-gradient(135deg,#2a2e37,#232a3a);border:1px solid var(--line)}
+.contact p{color:var(--mute);margin-bottom:24px}
+footer{padding:26px 0 40px;text-align:center;color:var(--mute);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">
+      <svg class="gizmo" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="12" x2="22" y2="16" stroke="#ff5a5f" stroke-width="3" stroke-linecap="round"/><line x1="12" y1="12" x2="12" y2="2" stroke="#6fdc6f" stroke-width="3" stroke-linecap="round"/><line x1="12" y1="12" x2="3" y2="19" stroke="#4aa3ff" stroke-width="3" stroke-linecap="round"/></svg>
+      Vedha Sri
+    </a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#path">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="floor"></div>
+  <div class="wrap">
+    <div>
+      <p class="role">3D Artist · Animator · Game Art</p>
+      <h1>Ch. Vedha <b>Sri</b></h1>
+      <p class="lead">B.Sc. Animation &amp; Gaming student at KL University. I model in Maya, paint in Photoshop, draw in Illustrator and bring it all to life in Animate.</p>
+      <div class="btns">
+        <a class="btn main" href="#gallery">Open the gallery</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="panel" aria-label="Interactive 3D model viewer">
+      <div class="pbar">
+        <span>persp · Maya-style viewport</span>
+        <div class="modes" role="group" aria-label="Display mode">
+          <button type="button" data-mode="wire" aria-pressed="true">Wireframe</button>
+          <button type="button" data-mode="shade" aria-pressed="false">Shaded</button>
+          <button type="button" data-mode="both" aria-pressed="false">Both</button>
+        </div>
+      </div>
+      <canvas id="mesh" width="640" height="640" role="img" aria-label="A rotating 3D model you can drag to turn"></canvas>
+      <div class="timeline" aria-hidden="true">
+        <div class="ticks"></div>
+        <span class="key" style="left:14%"></span><span class="key" style="left:38%"></span><span class="key" style="left:61%"></span><span class="key" style="left:86%"></span>
+        <div class="head"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <h2>Imagination, built in 3D.</h2>
+      <p>I’m Ch. Vedha Sri, a B.Sc. Animation &amp; Gaming student at KL University. I love animation, graphic design, digital art and 3D modelling, and I enjoy turning an idea into something people can see and move around in.</p>
+      <p>My goal is a career in the animation and gaming industry, where I can keep learning new tools and contribute to creative projects.</p>
+    </div>
+    <div class="panel facts">
+      <dl>
+        <dt>Studying</dt><dd>B.Sc. Animation &amp; Gaming</dd>
+        <dt>University</dt><dd>KL University</dd>
+        <dt>Intermediate</dt><dd>90%</dd>
+        <dt>Languages</dt><dd>English, Telugu</dd>
+        <dt>Based in</dt><dd>India</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <h2>Gallery</h2>
+    <p class="sec-intro">Pick a software to see the work I made with it. Click any image to view it full size.</p>
+    <div class="shelf" role="tablist" aria-label="Gallery categories" id="shelf"></div>
+    <div class="gal-head">
+      <div><h3 id="gTitle"></h3><p id="gDesc"></p></div>
+      <label class="btn add">Add images or videos<input type="file" id="file" accept="image/*,video/*" multiple></label>
+    </div>
+    <div class="grid" id="grid" role="tabpanel"></div>
+    <p class="hint">Images added with the button are only a preview in your browser and disappear on refresh. To keep them, put your files in an <code>images</code> folder next to this page and list them in the <code>GALLERY</code> section at the top of the script near the bottom of this file.</p>
+  </div>
+</section>
+
+<section id="toolkit">
+  <div class="wrap">
+    <h2>Toolkit</h2>
+    <div class="tools">
+      <div class="panel tool"><i style="background:#2bb59a">Ma</i><h3>Autodesk Maya</h3><p>3D modelling, 3D designing and 3D animation.</p></div>
+      <div class="panel tool"><i style="background:#2f8fe0">Ps</i><h3>Adobe Photoshop</h3><p>Digital artwork and painting.</p></div>
+      <div class="panel tool"><i style="background:#e58a00">Ai</i><h3>Adobe Illustrator</h3><p>Vector graphics and graphic design.</p></div>
+      <div class="panel tool"><i style="background:#d7358a">An</i><h3>Adobe Animate</h3><p>2D animation.</p></div>
+    </div>
+    <p class="sub">Soft skills</p>
+    <div class="chips">
+      <span class="chip">Creativity</span><span class="chip">Communication</span><span class="chip">Problem-solving</span>
+      <span class="chip">Time management</span><span class="chip">Teamwork</span><span class="chip">Quick learning</span>
+    </div>
+  </div>
+</section>
+
+<section id="path">
+  <div class="wrap">
+    <h2>Education</h2>
+    <div class="path">
+      <div class="panel card"><h3>B.Sc. Animation &amp; Gaming</h3><small>KL University · Currently pursuing</small></div>
+      <div class="panel card"><h3>Intermediate (12th standard)</h3><small>Completed with 90%</small></div>
+    </div>
+    <p class="sub">Career objective</p>
+    <p style="color:var(--mute)">To build a career in the animation and gaming industry using my creativity, technical knowledge and passion for digital art, while I keep learning new technologies and sharpening my modelling and animation skills.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Let’s make something together.</h2>
+      <p>I’m open to collaborations, internships and creative projects.</p>
+      <div class="btns">
+        <a class="btn main" href="mailto:ch.vedhasri2009@gmail.com">ch.vedhasri2009@gmail.com</a>
+        <a class="btn" href="tel:+917842726846">+91 78427 26846</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>© 2026 Ch. Vedha Sri · India</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="x" id="lbX" aria-label="Close">×</button>
+  <button class="pv" id="lbP" aria-label="Previous">‹</button>
+  <button class="nx" id="lbN" aria-label="Next">›</button>
+  <div id="lbBox"></div><p id="lbCap"></p>
+</div>
+
+<script>
+/* ============ YOUR GALLERY: add image paths here ============
+   Put files in an "images" folder next to this page, then list them.
+   Example: {src:"images/photoshop/portrait.jpg", title:"Portrait painting"}
+   Videos (.mp4, .webm) work too. */
+var GALLERY = {
+  photoshop:   [ {src:"images/photoshop/art1.jpg", title:"My first painting"} ],
+  illustrator: [],
+  animate:     [],
+  modelling:   [],
+  animation3d: []
+};
+/* ============================================================= */
+
+var CATS=[
+  {id:'photoshop',  name:'Adobe Photoshop',     short:'Ps',color:'#2f8fe0',desc:'Digital artwork and painting.'},
+  {id:'illustrator',name:'Adobe Illustrator',   short:'Ai',color:'#e58a00',desc:'Vector graphics and graphic design.'},
+  {id:'animate',    name:'Adobe Animate',       short:'An',color:'#d7358a',desc:'2D animation projects.'},
+  {id:'modelling',  name:'3D Modelling (Maya)', short:'3D',color:'#2bb59a',desc:'Models built in Autodesk Maya.'},
+  {id:'animation3d',name:'3D Animation (Maya)', short:'Ma',color:'#7a6cf0',desc:'Animated shots made in Autodesk Maya.'}
+];
+var cur=0,shelf=document.getElementById('shelf'),grid=document.getElementById('grid');
+var lbList=[],lbIdx=0;
+
+function isVideo(s){return /\.(mp4|webm|mov)(\?|$)/i.test(s)||s.indexOf('data:video')===0||s.indexOf('blob:')===0&&false}
+function media(it,cls){
+  var v=it.video||isVideo(it.src);
+  return v?'<video src="'+it.src+'" muted preload="metadata"></video>':'<img src="'+it.src+'" alt="'+it.title+'" loading="lazy">';
+}
+function renderTabs(){
+  shelf.innerHTML='';
+  CATS.forEach(function(c,i){
+    var b=document.createElement('button');
+    b.className='tab';b.type='button';b.setAttribute('role','tab');
+    b.setAttribute('aria-selected',i===cur);b.style.setProperty('--c',c.color);
+    b.innerHTML='<i style="background:'+c.color+'">'+c.short+'</i>'+c.name;
+    b.onclick=function(){cur=i;renderTabs();renderGrid()};
+    shelf.appendChild(b);
+  });
+}
+function renderGrid(){
+  var c=CATS[cur],list=GALLERY[c.id];
+  document.getElementById('gTitle').textContent=c.name;
+  document.getElementById('gDesc').textContent=c.desc+' '+list.length+(list.length===1?' item':' items')+'.';
+  grid.innerHTML='';grid.style.setProperty('--c',c.color);
+  if(!list.length){
+    for(var k=1;k<=3;k++){
+      var d=document.createElement('div');d.className='item';d.style.cursor='default';
+      d.innerHTML='<div class="ph"><b>'+c.short+'</b>Your '+c.name+' work will appear here.<br>Use “Add images or videos”.</div>';
+      grid.appendChild(d);
+    }
+    return;
+  }
+  list.forEach(function(it,i){
+    var b=document.createElement('button');b.className='item';b.type='button';b.setAttribute('aria-label','View '+it.title);
+    b.innerHTML=media(it)+'<span class="cap">'+it.title+'</span>';
+    b.onclick=function(){openLb(i)};
+    grid.appendChild(b);
+  });
+}
+document.getElementById('file').addEventListener('change',function(e){
+  var id=CATS[cur].id;
+  Array.prototype.forEach.call(e.target.files,function(f){
+    GALLERY[id].push({src:URL.createObjectURL(f),title:f.name.replace(/\.[^.]+$/,''),video:f.type.indexOf('video')===0});
+  });
+  e.target.value='';renderGrid();
+});
+
+/* lightbox */
+var lb=document.getElementById('lb'),lbBox=document.getElementById('lbBox'),lbCap=document.getElementById('lbCap'),lastFocus;
+function showLb(){
+  var it=GALLERY[CATS[cur].id][lbIdx];
+  lbBox.innerHTML=(it.video||isVideo(it.src))?'<video src="'+it.src+'" controls autoplay></video>':'<img src="'+it.src+'" alt="'+it.title+'">';
+  lbCap.textContent=it.title+' · '+CATS[cur].name;
+}
+function openLb(i){lastFocus=document.activeElement;lbIdx=i;showLb();lb.classList.add('open');document.getElementById('lbX').focus()}
+function closeLb(){lb.classList.remove('open');lbBox.innerHTML='';if(lastFocus)lastFocus.focus()}
+function step(d){var n=GALLERY[CATS[cur].id].length;lbIdx=(lbIdx+d+n)%n;showLb()}
+document.getElementById('lbX').onclick=closeLb;
+document.getElementById('lbP').onclick=function(){step(-1)};
+document.getElementById('lbN').onclick=function(){step(1)};
+lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+document.addEventListener('keydown',function(e){
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);
+});
+renderTabs();renderGrid();
+
+/* hero 3D mesh */
+(function(){
+  var cv=document.getElementById('mesh'),c=cv.getContext('2d'),S=cv.width,U=44,V=20,verts=[],faces=[],i,j;
+  for(i=0;i<U;i++)for(j=0;j<V;j++){
+    var u=i/U*Math.PI*2,v=j/V*Math.PI*2,r=.5*(1+.28*Math.sin(3*u+v)),R=1.25+.18*Math.cos(2*u);
+    verts.push([(R+r*Math.cos(v))*Math.cos(u),r*Math.sin(v)+.25*Math.sin(2*u),(R+r*Math.cos(v))*Math.sin(u)]);
+  }
+  for(i=0;i<U;i++)for(j=0;j<V;j++)faces.push([i*V+j,((i+1)%U)*V+j,((i+1)%U)*V+(j+1)%V,i*V+(j+1)%V]);
+  var rx=-.5,ry=0,vx=.006,drag=false,lx=0,ly=0,mode='wire';
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(still)vx=0;
+  function col(t){t=Math.max(0,Math.min(1,t));return 'rgb('+Math.round(30+t*60)+','+Math.round(60+t*140)+','+Math.round(120+t*135)+')'}
+  function draw(){
+    c.clearRect(0,0,S,S);
+    var cx=Math.cos(rx),sx=Math.sin(rx),cy=Math.cos(ry),sy=Math.sin(ry);
+    var P=verts.map(function(p){
+      var x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,y2=p[1]*cx-z*sx,z2=p[1]*sx+z*cx,k=4.4/(4.4+z2);
+      return [S/2+x*k*S*.2,S/2+y2*k*S*.2,z2];
+    });
+    var list=faces.map(function(f){
+      var a=P[f[0]],b=P[f[1]],d=P[f[3]];
+      return {f:f,z:(a[2]+P[f[2]][2])/2,nz:(b[0]-a[0])*(d[1]-a[1])-(b[1]-a[1])*(d[0]-a[0])};
+    }).sort(function(a,b){return b.z-a.z});
+    c.lineJoin='round';
+    list.forEach(function(o){
+      var f=o.f;c.beginPath();c.moveTo(P[f[0]][0],P[f[0]][1]);
+      for(var k=1;k<4;k++)c.lineTo(P[f[k]][0],P[f[k]][1]);c.closePath();
+      var front=o.nz>0;
+      if(mode!=='wire'){var l=.2+.8*Math.min(1,Math.abs(o.nz)/60)*(1-(o.z+2)/5);c.fillStyle=front?col(l):'#262a33';c.fill()}
+      if(mode==='wire'){c.strokeStyle=front?'#6fb8ff':'rgba(111,184,255,.13)';c.lineWidth=front?1:.6}
+      else if(mode==='both'){c.strokeStyle='rgba(180,220,255,.55)';c.lineWidth=.6}
+      else{c.strokeStyle=front?col(.55):'#262a33';c.lineWidth=.5}
+      c.stroke();
+    });
+  }
+  function loop(){if(!drag)ry+=vx;draw();requestAnimationFrame(loop)}
+  cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener('pointermove',function(e){if(!drag)return;ry+=(e.clientX-lx)*.01;rx+=(e.clientY-ly)*.01;lx=e.clientX;ly=e.clientY;if(still)draw()});
+  ['pointerup','pointercancel'].forEach(function(n){cv.addEventListener(n,function(){drag=false})});
+  document.querySelectorAll('.modes button').forEach(function(b){
+    b.addEventListener('click',function(){
+      mode=b.dataset.mode;
+      document.querySelectorAll('.modes button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+      if(still)draw();
+    });
+  });
+  if(still)draw();else loop();
+})();
+</script>
+</body>
+</html>
